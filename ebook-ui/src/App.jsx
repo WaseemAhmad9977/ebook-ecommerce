@@ -29,7 +29,6 @@ const App = ()=>{
           <Route path="ebook" element={<Ebook />} />
           <Route path="settings" element={<Setting />} />
         </Route>
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
