@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 
-const Admin = ()=>{
+const AdminLayout = ()=>{
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -204,4 +204,4 @@ const Admin = ()=>{
     )
 }
 
-export default Admin
+export default AdminLayout
