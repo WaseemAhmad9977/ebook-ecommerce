@@ -27,7 +27,7 @@ const App = ()=>{
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="ebook" element={<Ebook />} />
-          <Route path="settings" element={<Setting />} />
+          <Route path="setting" element={<Setting />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

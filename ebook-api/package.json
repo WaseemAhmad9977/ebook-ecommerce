@@ -14,22 +14,35 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
-    "feature": "ts-node services/feature/index.ts",
+    "@types/multer": "^1.4.12",
+    "@types/multer-s3": "^3.0.3",
+    "@types/uuid": "^10.0.0",
+    "feature": "file:ts-node services/feature/index.ts",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.812.0",
+    "@aws-sdk/s3-request-presigner": "^3.812.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.1",
+    "multer": "^2.0.0",
+    "multer-s3": "^3.0.1",
     "node": "^24.0.0",
-    "node-color-log": "^12.0.1"
+    "node-color-log": "^12.0.1",
+    "react-spinners": "^0.17.0",
+    "storage": "^0.2.0",
+    "swr": "^2.3.3",
+    "uuid": "^11.1.0"
   }
 }

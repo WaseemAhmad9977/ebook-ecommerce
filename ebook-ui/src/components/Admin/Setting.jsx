@@ -1,17 +1,73 @@
 import React, { useState } from "react";
+import http from "../../util/http";
+import useSWR, { mutate } from "swr";
+import fetcher from "../../util/fetcher";
+import { ClipLoader } from "react-spinners";
 
 const Setting = () => {
   const [active,setActive]=useState(0)
 
 
  const Category = ()=>{
+    const {data:category,isLoading,error} = useSWR('/category',fetcher)
+   
+    const model = {
+      name:''
+    }
+    const [formData,setFormData]=useState(model)
+
+    const handleChange=(e)=>{
+      const input = e.target;
+      const name = input.name;
+      const value=input.value
+      const x  = {
+        [name]:value
+      }
+      setFormData(x)
+    }
+
+    const createCategory=async (e)=>{
+        e.preventDefault()
+        try{
+           await http.post('/category',formData)
+           mutate('/category')
+        }
+        catch(err)
+        {
+          console.log(err.reponse?err.reponse.data.message:err.message)
+        }
+    }
+
+    const deleteCategory= async (id)=>{
+      try{
+          const data = await http.delete(`/category/${id}`)
+          mutate('/category')
+      } 
+      catch(err)
+      {
+         console.log(err.reponse ? err.reponse.data.message:err.message)
+      }
+    }
+
+ if(isLoading)
+  return(
+ <ClipLoader color="#6366f1" size={40} />
+)
+
+    if (error)
+  return <h1>Error: {error.message}</h1>;
+
+
     return (
       <div className="space-y-6">
         <div className="grid lg:grid-cols-8 gap-6">
           {
-            Array(16).fill(0).map((item, index)=>(
-              <button key={index} className="bg-gray-50 text-black border border-dashed py-2 rounded capitalize">
-                tetsing
+            category.map((item, index)=>(
+              <button key={index} className="bg-gray-50 text-black border border-dashed py-2 rounded capitalize flex gap-3 justify-center">
+               {item.name} 
+               <button onClick={()=>deleteCategory(item._id)}>
+                <i class="ri-delete-bin-6-line"></i>
+               </button>
               </button>
             ))
           }
@@ -19,11 +75,14 @@ const Setting = () => {
         <div>
           <form className="space-x-2">
             <input 
-              name="title"
+              onChange={handleChange}
+              name="name"
               className="border rounded py-2 px-3 w-[350px] focus:outline-indigo-500"
               placeholder="Enter category name"
             />
-            <button className="bg-indigo-500 text-white py-2 px-4 rounded">
+            <button className="bg-indigo-500 text-white py-2 px-4 rounded"
+             onClick={createCategory}
+            >
               <i className="ri-add-line mr-1"></i>
               Add
             </button>

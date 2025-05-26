@@ -1,23 +1,35 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-axios.defaults.withCredentials=true
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { mutate } from "swr";
+
+axios.defaults.withCredentials = true;
 
 const Login = () => {
   const [type, setType] = useState("password");
+  const navigate = useNavigate();
 
   const handlelogin = async (e) => {
     try {
       e.preventDefault();
       const user = {
-        email: "ravi@gmail.com",
-        password: "1234",
+        email: "waseemahmad9977@gmail.com",
+        password: "12345",
       };
-      const res = await axios.post("http://localhost:8080/user/login", user);
-      console.log(res.data);
-    } 
-    catch (err) {
-      console.log(err.message);
+      const { data } = await axios.post(
+        "http://localhost:8080/user/login",
+        user
+      );
+      console.log(data);
+      if (data.role === "admin") {
+        mutate("/user/session", data, false); // false = don't revalidate right now
+        navigate("/admin/dashboard");
+        return
+      }
+
+      alert("user");
+    } catch (err) {
+      console.log(err.reponse ? err.response.data.message : err.message);
     }
   };
 
