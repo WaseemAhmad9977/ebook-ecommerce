@@ -14,7 +14,7 @@ const getToken = (user:UserInterface)=>{
    const payload = {
 	 id:user._id,
 	 fullname:user.fullname,
-	 emai:user.email,
+	 email:user.email,
     phone:user.phone,
     role: user.role
    }
@@ -45,7 +45,6 @@ export const login = Exc(async (req:Request,res:Response)=>{
    const user:UserInterface | null = await userModel.findOne({email})
 
 
-
    if(!user)
 	return res.status(404).send('user not found')
    
@@ -62,24 +61,51 @@ export const login = Exc(async (req:Request,res:Response)=>{
 
    res.cookie('accessToken',accessToken,{
     maxAge: SIX_DAYS,
-		domain: process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN,
-		secure: process.env.NODE_ENV === "dev" ? false : true,
+		domain: 'localhost',
+		secure: process.env.NODE_ENV==="dev" ? false : true,
 		httpOnly: true
    })
 
    res.cookie('refreshToken',refreshToken,{
       maxAge:SIX_DAYS,
-      domain:process.env.DEV_ENV==='dev'?'localhost':process.env.DOMAIN,
+      domain:'localhost',
       secure:process.env.DEV_ENV==='dev'?false:true,
       httpOnly:true
    })
 
    return res.json({
 	  message:'Login succcess',
+     role:user.role
    })
 
 })
 
+export const logout = Exc((req: Request, res: Response) => {
+    res.cookie('accessToken',null,{
+    maxAge: 0,
+		domain: 'localhost',
+		secure: process.env.NODE_ENV==="dev" ? false : true,
+		httpOnly: true
+   })
 
+   res.cookie('refreshToken',null,{
+      maxAge:0,
+      domain:'localhost',
+      secure:process.env.DEV_ENV==='dev'?false:true,
+      httpOnly:true
+   })
 
+  return res.json({
+    message: 'Logout success',
+  });
+});
+
+export const session = Exc((req:Request,res:Response)=>{
+   const {accessToken} = req.cookies
+   if(!accessToken)
+      return res.status(401).send('bad request')
+
+   const user = jwt.verify(accessToken,process.env.JWT_SECRET as string)
+   res.json(user)
+}) 
 
