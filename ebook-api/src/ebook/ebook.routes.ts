@@ -4,7 +4,7 @@ const  EbookRouter = Router()
 
 EbookRouter.get('/',fetchEbook)
 EbookRouter.post('/',createEbook)
-EbookRouter.put('/',updateEbook)
-EbookRouter.delete('/',deleteEbook)
+EbookRouter.put('/:id',updateEbook)
+EbookRouter.delete('/:id',deleteEbook)
 
 export default EbookRouter

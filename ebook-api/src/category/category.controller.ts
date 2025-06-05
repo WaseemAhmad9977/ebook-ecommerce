@@ -5,6 +5,7 @@ import categoryModel from "./category.model"
 
 export const fetchCategory =Exc( async (req:Request,res:Response)=>{
     const category = await categoryModel.find()
+	
 	res.json(category)
 	// res.send('hello Developer')
 

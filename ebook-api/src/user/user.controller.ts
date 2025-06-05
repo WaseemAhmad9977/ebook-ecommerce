@@ -6,6 +6,7 @@ import userModel from "./user.model"
 import UserModel from "./user.model"
 import {Request,Response} from 'express'
 import { UserInterface } from './user.interface'
+import { AuthInterface } from '../middleware/guard.middleware'
 
 const FOURTEEN_MINUTE=840000
 const SIX_DAYS = 518400000
@@ -100,12 +101,7 @@ export const logout = Exc((req: Request, res: Response) => {
   });
 });
 
-export const session = Exc((req:Request,res:Response)=>{
-   const {accessToken} = req.cookies
-   if(!accessToken)
-      return res.status(401).send('bad request')
-
-   const user = jwt.verify(accessToken,process.env.JWT_SECRET as string)
-   res.json(user)
+export const session = Exc((req:AuthInterface,res:Response)=>{
+   return res.json(req.user)
 }) 
-
+ 
