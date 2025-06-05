@@ -26,8 +26,9 @@ const Login = () => {
         navigate("/admin/dashboard");
         return
       }
-
-      alert("user");
+     
+     navigate("/app/ebook");
+    
     } catch (err) {
       console.log(err.reponse ? err.response.data.message : err.message);
     }

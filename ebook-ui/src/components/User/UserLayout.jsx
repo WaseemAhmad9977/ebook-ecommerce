@@ -11,7 +11,7 @@ import http from "../../util/http";
 import fetcher from "../../util/fetcher";
 import { ClipLoader } from "react-spinners";
 
-const AdminLayout = () => {
+const UserLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -20,29 +20,17 @@ const AdminLayout = () => {
     isLoading: sessionLoading,
     error: sessionErr,
   } = useSWR("/user/session", fetcher);
+  
 
   const [width, setWidth] = useState(280);
   const menus = [
-    {
-      label: "dashboard",
-      href: "/admin/dashboard",
-      icon: "ri-apps-2-line",
-    },
+  
     {
       label: "ebook",
-      href: "/admin/ebook",
+      href: "/app/ebook",
       icon: "ri-bookmark-line",
     },
-    {
-      label: "settings",
-      href: "/admin/setting",
-      icon: "ri-tools-line",
-    },
-    {
-      label: "logout",
-      href: "/admin/logout",
-      icon: "ri-logout-circle-r-line",
-    },
+    
   ];
 
   const onMobileNavigate = (href) => {
@@ -235,10 +223,11 @@ const AdminLayout = () => {
   //     )
 
   if (sessionLoading) return <ClipLoader />;
+ 
   if (sessionErr) return <Navigate to="/login" replace />;
   if (!session) return null; 
-  if (session.role !== "admin") return <Navigate to="/login" replace />;
-
+  if (session.role !== "user") return <Navigate to="/login" replace />;
+ 
   return (
     <>
       <Desktop />
@@ -247,4 +236,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default UserLayout;

@@ -14,7 +14,6 @@ const app = express()
 app.listen(8080)
 
 
-
 // app.use(cors({
 //   origin:'http://localhost:5173'
 // }))
@@ -40,10 +39,17 @@ app.get('/',(req:Request,res:Response)=>{
 import UserRouter from './user/user.routes'
 app.use("/user",UserRouter)
 
+
 import CategoryRouter from './category/category.routes'
 app.use("/Category",CategoryRouter)
 
+
 import StorageRouter from './storage/storage.routes'
 app.use("/Storage",StorageRouter)
+
+
 import EbookRouter from './ebook/ebook.routes'
 app.use("/Ebook",EbookRouter)
+
+import PaymentRouter from './payment/payment.routes'
+app.use("/Payment",PaymentRouter)
